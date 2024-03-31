@@ -14,6 +14,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'STORE-ADMIN-APP',
+      debugShowCheckedModeBanner: false,
       theme: ref.watch(themeProvider),
       home: const LoginPage(),
     );

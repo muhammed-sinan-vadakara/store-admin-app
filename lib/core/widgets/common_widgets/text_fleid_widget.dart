@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_admin_app/core/theme/app_theme.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final String? hinttText;
@@ -17,25 +18,33 @@ class TextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      style: const TextStyle(
-        color: Colors.white,
+      style: TextStyle(
+        color: AppTheme.of(context).colors.text,
       ),
       controller: controller,
-      cursorColor: Colors.white,
+      cursorColor: AppTheme.of(context).colors.text,
       decoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: AppTheme.of(context).spaces.space_250,
+          vertical: AppTheme.of(context).spaces.space_200,
+        ),
         hintText: hinttText,
-        hintStyle: const TextStyle(color: Colors.white),
+        hintStyle: TextStyle(
+          color: AppTheme.of(context).colors.textInverse,
+        ),
         suffixIcon: suffixxIcon,
         prefixIcon: prefixxIcon,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(color: Colors.black),
+          borderSide: BorderSide(
+            color: AppTheme.of(context).colors.textSubtle,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(color: Colors.black),
+          borderSide: BorderSide(
+            color: AppTheme.of(context).colors.textSubtle,
+          ),
         ),
       ),
     );
