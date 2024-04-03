@@ -12,9 +12,7 @@ class ElevatedButtonWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appTheme = AppTheme.of(context);
     return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: appTheme.spaces.space_300,
-          horizontal: appTheme.spaces.space_300),
+      padding: EdgeInsets.symmetric(horizontal: appTheme.spaces.space_100),
       child: SizedBox(
         height: appTheme.spaces.space_600,
         width: MediaQuery.sizeOf(context).width,

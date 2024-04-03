@@ -48,6 +48,8 @@ dependencies:
   cloud_firestore: ^4.15.10
   flutter_svg: ^2.0.10+1
   flutter_hooks: ^0.20.5
+  dropdown_button2: ^2.3.9
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

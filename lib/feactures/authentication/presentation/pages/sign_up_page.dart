@@ -1,92 +1,177 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:store_admin_app/core/theme/app_theme.dart';
+import 'package:store_admin_app/core/widgets/common_widgets/elevated_button_widget.dart';
 import 'package:store_admin_app/core/widgets/common_widgets/text_fleid_widget.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:store_admin_app/feactures/authentication/presentation/pages/login_page.dart';
 import 'package:store_admin_app/feactures/authentication/presentation/providers/auth_provider.dart';
+import 'package:store_admin_app/feactures/authentication/presentation/widgets/auth_elevated_button.dart';
 
 class SignupPage extends HookConsumerWidget {
   static const routePath = '/signup';
   const SignupPage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final emailController = useTextEditingController();
-    final passwordController = useTextEditingController();
-    // final constants = ref.watch(signupPageConstantsProvider);
-    return SafeArea(
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final nameController = TextEditingController();
+    final appTheme = AppTheme.of(context);
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("signup"
-              // constants.txtSignupTitle
+          title: Center(
+            child: Text(
+              "STORE ADMIN APP",
+              style: TextStyle(
+                color: appTheme.colors.text,
+                fontSize: appTheme.spaces.space_300,
               ),
-          actions: [
-            IconButton(
-                onPressed: () => context.go(LoginPage.routePath),
-                icon: const Icon(Icons.login))
-          ],
+            ),
+          ),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Center(
-                child: SizedBox(
-                    height: 150,
-                    width: 300,
-                    child: Lottie.asset("assets/animations/signuppage.json",
-                        fit: BoxFit.cover)),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Email"
-                        // constants.txtEmailLabel,
-                        ),
-                    const SizedBox(height: 8),
-                    TextFieldWidget(
-                        hinttText: "",
-                        // Loginpagetext.textfliedemail,
-                        prefixxIcon: Icon(Icons.abc),
-                        // Loginpagetext.emailprefixicon,
-                        controller: emailController),
-                    const SizedBox(height: 24),
-                    Text("ygtgj"
-                        // constants.txtPasswordPlaceholder,
-                        ),
-                    const SizedBox(height: 8),
-                    TextFieldWidget(
-                        hinttText: "",
-                        // Loginpagetext.textfliedpassword,
-                        prefixxIcon: Icon(Icons.abc),
-                        //  Loginpagetext.passwordprefixicon,
-                        // suffixxIcon:
-                        // Loginpagetext.passwordsuffixicon,
-                        controller: passwordController),
-                    const SizedBox(height: 24),
-                    TextButton(
-                      onPressed: () => ref
-                          .read(authenticationProvider.notifier)
-                          .signup(context, emailController.text,
-                              passwordController.text),
-                      child: Text("tfguedrftgyh"
-                          // constants.txtSignupBtnLabel
-                          ),
-                    ),
-                    const SizedBox(height: 24),
-                    TextButton(
-                      onPressed: () => ref
-                          .read(authenticationProvider.notifier)
-                          .googleverification(context),
-                      child: const Text("GOOGLE"),
-                    ),
-                    const SizedBox(height: 24),
-                  ],
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: appTheme.spaces.space_200),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(appTheme.spaces.space_200),
+                    child: SizedBox(
+                        height: 150,
+                        width: 300,
+                        child: Lottie.asset("assets/animations/signuppage.json",
+                            fit: BoxFit.cover)),
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: appTheme.spaces.space_700,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Text(
+                    "NAME",
+                    style: TextStyle(fontSize: appTheme.spaces.space_200),
+                  ),
+                ),
+                SizedBox(
+                  height: appTheme.spaces.space_100,
+                ),
+                TextFieldWidget(
+                    hinttText: "NAME",
+                    keyboardtype: TextInputType.name,
+                    prefixxIcon: Icon(
+                      Icons.person_outline_outlined,
+                      color: appTheme.colors.primary,
+                    ),
+                    controller: nameController),
+                SizedBox(
+                  height: appTheme.spaces.space_200,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Text(
+                    "EMAIL",
+                    style: TextStyle(fontSize: appTheme.spaces.space_200),
+                  ),
+                ),
+                SizedBox(
+                  height: appTheme.spaces.space_100,
+                ),
+                TextFieldWidget(
+                    hinttText: "EMAIL",
+                    keyboardtype: TextInputType.emailAddress,
+                    prefixxIcon: Icon(
+                      Icons.email_outlined,
+                      color: appTheme.colors.primary,
+                    ),
+                    controller: emailController),
+                SizedBox(
+                  height: appTheme.spaces.space_200,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: appTheme.spaces.space_200),
+                  child: Text(
+                    "PASSWORD",
+                    style: TextStyle(fontSize: appTheme.spaces.space_200),
+                  ),
+                ),
+                SizedBox(
+                  height: appTheme.spaces.space_150,
+                ),
+                TextFieldWidget(
+                    hinttText: "PASSWORD",
+                    keyboardtype: TextInputType.number,
+                    prefixxIcon: Icon(
+                      Icons.remove_red_eye_outlined,
+                      color: appTheme.colors.primary,
+                    ),
+                    controller: passwordController),
+                SizedBox(
+                  height: appTheme.spaces.space_400,
+                ),
+                ElevatedButtonWidget(
+                  text: "SIGN UP",
+                  onPressed: () => ref
+                      .read(authenticationProvider.notifier)
+                      .signup(context, emailController.text,
+                          passwordController.text),
+                ),
+                SizedBox(
+                  height: appTheme.spaces.space_150,
+                ),
+                AuthElevatedButtonWidget(
+                  text: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 25,
+                        width: 25,
+                        child:
+                            SvgPicture.asset("assets/icons/ic_google_icon.svg"),
+                      ),
+                      SizedBox(
+                        width: appTheme.spaces.space_100,
+                      ),
+                      Text(
+                        "Sign in with Google",
+                        style: TextStyle(color: appTheme.colors.text),
+                      ),
+                    ],
+                  ),
+                  onPressed: () => ref
+                      .read(authenticationProvider.notifier)
+                      .googleverification(context),
+                  colours: appTheme.colors.textDisabled,
+                ),
+                SizedBox(
+                  height: appTheme.spaces.space_50,
+                ),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Already have an account . Please"),
+                      TextButton(
+                        onPressed: () => context.go(LoginPage.routePath),
+                        child: Text("Login"),
+                      ),
+                      SizedBox(
+                        height: appTheme.spaces.space_250,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

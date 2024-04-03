@@ -3,31 +3,30 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-part 'offer_model.freezed.dart';
-part 'offer_model.g.dart';
+part 'coustomer_model.freezed.dart';
+part 'coustomer_model.g.dart';
 
 @freezed
-class OfferModel with _$OfferModel {
-  const OfferModel._();
+class CoustomerModel with _$CoustomerModel {
+  const CoustomerModel._();
 
-  factory OfferModel({
+  factory CoustomerModel({
     required String? id,
     required String? name,
     required String? description,
-    required double? amount,
-    required List<String> products,
-  }) = _OfferModel;
+    required String? amount,
+  }) = _CoustomerModel;
 
-  factory OfferModel.fromJson(Map<String, dynamic> json) =>
-      _$OfferModelFromJson(json);
+  factory CoustomerModel.fromJson(Map<String, dynamic> json) =>
+      _$CoustomerModelFromJson(json);
 
-  factory OfferModel.fromFirestore(
+  factory CoustomerModel.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
     final data = snapshot.data()!;
     data['id'] = snapshot.id;
-    return OfferModel.fromJson(data);
+    return CoustomerModel.fromJson(data);
   }
   Map<String, dynamic> toFirestore() {
     return toJson()..remove('id');

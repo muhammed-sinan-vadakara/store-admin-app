@@ -6,14 +6,15 @@ class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final Widget? prefixxIcon;
   final Widget? suffixxIcon;
+  final dynamic? keyboardtype;
 
-  const TextFieldWidget({
-    super.key,
-    required this.hinttText,
-    required this.prefixxIcon,
-    this.suffixxIcon,
-    required this.controller,
-  });
+  const TextFieldWidget(
+      {super.key,
+      required this.hinttText,
+      this.prefixxIcon,
+      this.suffixxIcon,
+      required this.controller,
+      this.keyboardtype});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class TextFieldWidget extends StatelessWidget {
         color: AppTheme.of(context).colors.text,
       ),
       controller: controller,
+      keyboardType: keyboardtype,
       cursorColor: AppTheme.of(context).colors.text,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
