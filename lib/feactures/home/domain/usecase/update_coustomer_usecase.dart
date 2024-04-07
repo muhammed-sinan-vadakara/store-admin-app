@@ -16,7 +16,7 @@ final class UpdateCoustomerUseCase {
     try {
       await repository.updateCoustomer(
           CoustomerEntity(
-            id: id,
+            Coustomerid: id,
             name: name,
             description: description,
             amount: amount,

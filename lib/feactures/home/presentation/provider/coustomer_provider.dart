@@ -34,14 +34,14 @@ class Coustomer extends _$Coustomer {
   }
 
   Future<void> updatecoustomer({
-    required String id,
+    required String costomerid,
     required String name,
     required String description,
     required String amount,
   }) async {
     final repository = ref.watch(coustomerRepositoryProvider);
     await UpdateCoustomerUseCase(repository: repository)(
-      id: id,
+      id: costomerid,
       name: name,
       description: description,
       amount: amount,

@@ -6,7 +6,6 @@ final class RemoveCoustomerUsecase {
   RemoveCoustomerUsecase({required this.repository});
   Future<void> call(String coustomerId) async {
     try {
-      final data = await repository.getById(coustomerId);
       return repository.deleteCoustomer(coustomerId);
     } catch (e) {
       throw BaseException(e.toString());

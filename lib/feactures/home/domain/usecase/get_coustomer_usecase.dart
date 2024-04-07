@@ -14,7 +14,7 @@ final class GetOfferUseCase {
         yield [
           for (final coustomers in coustomers)
             CoustomerEntity(
-              id: coustomers.id,
+              Coustomerid: coustomers.Coustomerid,
               name: coustomers.name,
               description: coustomers.description,
               amount: coustomers.amount,

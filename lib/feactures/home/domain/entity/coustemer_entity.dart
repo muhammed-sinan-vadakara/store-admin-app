@@ -4,8 +4,8 @@ part 'coustemer_entity.freezed.dart';
 
 @freezed
 class CoustomerEntity with _$CoustomerEntity {
-  const factory CoustomerEntity({
-    required String id,
+  factory CoustomerEntity({
+    required String Coustomerid,
     required String name,
     required String description,
     required String amount,

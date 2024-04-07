@@ -15,7 +15,7 @@ class CoustomerRepositoryImpl implements CoustomerRepository {
   @override
   Future<void> addCoustomer(CoustomerEntity entity) async {
     final coustomeradd = CoustomerModel(
-        id: '',
+        coustomerid: '',
         name: entity.name,
         description: entity.description,
         amount: entity.amount);
@@ -28,39 +28,39 @@ class CoustomerRepositoryImpl implements CoustomerRepository {
     await for (final snapshot in data) {
       final docs = snapshot;
       yield [
-        for (final offer in docs)
+        for (final coustomers in docs)
           CoustomerEntity(
-              name: offer.name ?? '',
-              description: offer.description ?? '',
-              amount: offer.amount ?? '',
-              id: offer.id ?? '')
+              name: coustomers.name ?? '',
+              description: coustomers.description ?? '',
+              amount: coustomers.amount ?? '',
+              Coustomerid: coustomers.coustomerid ?? '')
       ];
     }
   }
 
   @override
-  Future<void> deleteCoustomer(String offerId) async {
-    await datasource.delete(offerId);
+  Future<void> deleteCoustomer(String costomerId) async {
+    await datasource.delete(costomerId);
   }
 
   @override
   Future<void> updateCoustomer(
-      CoustomerEntity updatedEntity, String offerId) async {
+      CoustomerEntity updatedEntity, String coustomerId) async {
     await datasource.update(
         CoustomerModel(
-          id: updatedEntity.id,
+          coustomerid: updatedEntity.Coustomerid,
           name: updatedEntity.name,
           description: updatedEntity.description,
           amount: updatedEntity.amount,
         ),
-        offerId);
+        coustomerId);
   }
 
   @override
   Future<CoustomerEntity> getById(String id) async {
     final data = await datasource.getById(id);
     return CoustomerEntity(
-      id: data.id ?? '',
+      Coustomerid: data.coustomerid ?? '',
       name: data.name ?? '',
       description: data.description ?? '',
       amount: data.amount ?? '',

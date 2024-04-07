@@ -35,8 +35,8 @@ class ProductFirestoreDatasourceImpl implements ProductFirestoreDatasource {
   }
 
   @override
-  Future<void> delete(String coustomerId) async {
-    await collection.doc(coustomerId).delete();
+  Future<void> delete(String id) async {
+    await collection.doc(id).delete();
   }
 
   @override

@@ -40,8 +40,8 @@ class CoustomerFirestoreDatasourceImpl implements CoustomerFirestoreDatasource {
   }
 
   @override
-  Future<CoustomerModel> getById(String id) async {
-    final data = await collection.doc(id).get();
+  Future<CoustomerModel> getById(String coustomerid) async {
+    final data = await collection.doc(coustomerid).get();
     return data.data()!;
   }
 }

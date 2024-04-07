@@ -15,7 +15,7 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<void> addproduct(ProductEntity entity) async {
     final productadd = ProductModel(
-      id: '',
+      Productid: '',
       name: entity.name,
       phonenumber: entity.phonenumber,
       email: entity.email,
@@ -36,7 +36,7 @@ class ProductRepositoryImpl implements ProductRepository {
               email: product.email ?? '',
               phonenumber: product.phonenumber ?? '',
               address: product.address ?? '',
-              productId: product.id ?? '')
+              productId: product.Productid ?? '')
       ];
     }
   }
@@ -51,7 +51,7 @@ class ProductRepositoryImpl implements ProductRepository {
       ProductEntity updatedEntity, String productId) async {
     await datasource.update(
         ProductModel(
-          id: updatedEntity.productId,
+          Productid: updatedEntity.productId,
           name: updatedEntity.name,
           email: updatedEntity.email,
           phonenumber: updatedEntity.phonenumber,
@@ -64,7 +64,7 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<ProductEntity> getById(String id) async {
     final data = await datasource.getById(id);
     return ProductEntity(
-      productId: data.id ?? '',
+      productId: data.Productid ?? '',
       name: data.name ?? '',
       email: data.email ?? '',
       phonenumber: data.phonenumber ?? '',

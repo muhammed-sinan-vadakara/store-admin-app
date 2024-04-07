@@ -9,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:store_admin_app/feactures/authentication/presentation/pages/login_page.dart';
 import 'package:store_admin_app/feactures/authentication/presentation/providers/auth_provider.dart';
 import 'package:store_admin_app/feactures/authentication/presentation/widgets/auth_elevated_button.dart';
+import 'package:store_admin_app/feactures/home/presentation/widgets/form_text_feild_widget.dart';
 
 class SignupPage extends HookConsumerWidget {
   static const routePath = '/signup';
@@ -16,6 +17,7 @@ class SignupPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _formKey = GlobalKey<FormState>();
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     final nameController = TextEditingController();
@@ -38,139 +40,186 @@ class SignupPage extends HookConsumerWidget {
           child: Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: appTheme.spaces.space_200),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(appTheme.spaces.space_200),
-                    child: SizedBox(
-                        height: 150,
-                        width: 300,
-                        child: Lottie.asset("assets/animations/signuppage.json",
-                            fit: BoxFit.cover)),
-                  ),
-                ),
-                SizedBox(
-                  height: appTheme.spaces.space_700,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Text(
-                    "NAME",
-                    style: TextStyle(fontSize: appTheme.spaces.space_200),
-                  ),
-                ),
-                SizedBox(
-                  height: appTheme.spaces.space_100,
-                ),
-                TextFieldWidget(
-                    hinttText: "NAME",
-                    keyboardtype: TextInputType.name,
-                    prefixxIcon: Icon(
-                      Icons.person_outline_outlined,
-                      color: appTheme.colors.primary,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(appTheme.spaces.space_200),
+                      child: SizedBox(
+                          height: 150,
+                          width: 300,
+                          child: Lottie.asset(
+                              "assets/animations/signuppage.json",
+                              fit: BoxFit.cover)),
                     ),
-                    controller: nameController),
-                SizedBox(
-                  height: appTheme.spaces.space_200,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Text(
-                    "EMAIL",
-                    style: TextStyle(fontSize: appTheme.spaces.space_200),
                   ),
-                ),
-                SizedBox(
-                  height: appTheme.spaces.space_100,
-                ),
-                TextFieldWidget(
-                    hinttText: "EMAIL",
-                    keyboardtype: TextInputType.emailAddress,
-                    prefixxIcon: Icon(
-                      Icons.email_outlined,
-                      color: appTheme.colors.primary,
+                  SizedBox(
+                    height: appTheme.spaces.space_700,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                      "NAME",
+                      style: TextStyle(fontSize: appTheme.spaces.space_200),
                     ),
-                    controller: emailController),
-                SizedBox(
-                  height: appTheme.spaces.space_200,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: appTheme.spaces.space_200),
-                  child: Text(
-                    "PASSWORD",
-                    style: TextStyle(fontSize: appTheme.spaces.space_200),
                   ),
-                ),
-                SizedBox(
-                  height: appTheme.spaces.space_150,
-                ),
-                TextFieldWidget(
-                    hinttText: "PASSWORD",
-                    keyboardtype: TextInputType.number,
-                    prefixxIcon: Icon(
-                      Icons.remove_red_eye_outlined,
-                      color: appTheme.colors.primary,
+                  SizedBox(
+                    height: appTheme.spaces.space_100,
+                  ),
+                  TextFieldWidget(
+                      hinttText: "NAME",
+                      keyboardtype: TextInputType.name,
+                      prefixxIcon: Icon(
+                        Icons.person_outline_outlined,
+                        color: appTheme.colors.primary,
+                      ),
+                      controller: nameController),
+                  SizedBox(
+                    height: appTheme.spaces.space_200,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                      "EMAIL",
+                      style: TextStyle(fontSize: appTheme.spaces.space_200),
                     ),
-                    controller: passwordController),
-                SizedBox(
-                  height: appTheme.spaces.space_400,
-                ),
-                ElevatedButtonWidget(
-                  text: "SIGN UP",
-                  onPressed: () => ref
-                      .read(authenticationProvider.notifier)
-                      .signup(context, emailController.text,
-                          passwordController.text),
-                ),
-                SizedBox(
-                  height: appTheme.spaces.space_150,
-                ),
-                AuthElevatedButtonWidget(
-                  text: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 25,
-                        width: 25,
-                        child:
-                            SvgPicture.asset("assets/icons/ic_google_icon.svg"),
-                      ),
-                      SizedBox(
-                        width: appTheme.spaces.space_100,
-                      ),
-                      Text(
-                        "Sign in with Google",
-                        style: TextStyle(color: appTheme.colors.text),
-                      ),
-                    ],
                   ),
-                  onPressed: () => ref
-                      .read(authenticationProvider.notifier)
-                      .googleverification(context),
-                  colours: appTheme.colors.textDisabled,
-                ),
-                SizedBox(
-                  height: appTheme.spaces.space_50,
-                ),
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Already have an account . Please"),
-                      TextButton(
-                        onPressed: () => context.go(LoginPage.routePath),
-                        child: Text("Login"),
-                      ),
-                      SizedBox(
-                        height: appTheme.spaces.space_250,
-                      ),
-                    ],
+                  SizedBox(
+                    height: appTheme.spaces.space_100,
                   ),
-                )
-              ],
+                  FormTextFieldWidget(
+                      validator: (value) {
+                        bool emailValid = RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value!);
+
+                        if (value!.isEmpty) {
+                          return "Enter Email";
+                        }
+
+                        if (!emailValid) {
+                          return "Enter Valid Email";
+                        }
+                      },
+                      hinttText: "EMAIL",
+                      keyboardtype: TextInputType.emailAddress,
+                      prefixxIcon: Icon(
+                        Icons.email_outlined,
+                        color: appTheme.colors.primary,
+                      ),
+                      controller: emailController),
+                  SizedBox(
+                    height: appTheme.spaces.space_200,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: appTheme.spaces.space_200),
+                    child: Text(
+                      "PASSWORD",
+                      style: TextStyle(fontSize: appTheme.spaces.space_200),
+                    ),
+                  ),
+                  SizedBox(
+                    height: appTheme.spaces.space_150,
+                  ),
+                  FormTextFieldWidget(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter Password";
+                        } else if (passwordController.text.length < 6) {
+                          return "Password Lenght should be more than 6 characters";
+                        }
+                      },
+                      hinttText: "PASSWORD",
+                      keyboardtype: TextInputType.number,
+                      prefixxIcon: Icon(
+                        Icons.remove_red_eye_outlined,
+                        color: appTheme.colors.primary,
+                      ),
+                      controller: passwordController),
+                  SizedBox(
+                    height: appTheme.spaces.space_400,
+                  ),
+                  ElevatedButtonWidget(
+                      text: "SIGN UP",
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Processing Data')),
+                          );
+                        } else {
+                          ref.read(authenticationProvider.notifier).signup(
+                              context,
+                              emailController.text,
+                              passwordController.text);
+                        }
+                      }
+                      // =>
+
+                      ),
+                  SizedBox(
+                    height: appTheme.spaces.space_150,
+                  ),
+                  AuthElevatedButtonWidget(
+                    text: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: SvgPicture.asset(
+                              "assets/icons/ic_google_icon.svg"),
+                        ),
+                        SizedBox(
+                          width: appTheme.spaces.space_100,
+                        ),
+                        Text(
+                          "Sign in with Google",
+                          style: TextStyle(color: appTheme.colors.text),
+                        ),
+                      ],
+                    ),
+                    onPressed: () => ref
+                        .read(authenticationProvider.notifier)
+                        .googleverification(context),
+                    colours: appTheme.colors.textDisabled,
+                  ),
+                  SizedBox(
+                    height: appTheme.spaces.space_50,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.sizeOf(context).width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Already have an account . Please"),
+                        TextButton(
+                          onPressed: () => context.go(LoginPage.routePath),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1, color: appTheme.colors.primary),
+                                  borderRadius: BorderRadius.circular(32),
+                                  color: appTheme.colors.textDisabled),
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Text(
+                                  "Login",
+                                  style:
+                                      TextStyle(color: appTheme.colors.primary),
+                                ),
+                              )),
+                        ),
+                        SizedBox(
+                          height: appTheme.spaces.space_250,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

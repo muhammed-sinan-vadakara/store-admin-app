@@ -11,7 +11,7 @@ class ProductModel with _$ProductModel {
   const ProductModel._();
 
   factory ProductModel({
-    required String? id,
+    required String? Productid,
     required String? name,
     required String? email,
     required String? phonenumber,
@@ -26,10 +26,10 @@ class ProductModel with _$ProductModel {
     SnapshotOptions? options,
   ) {
     final data = snapshot.data()!;
-    data['id'] = snapshot.id;
+    data['Productid'] = snapshot.id;
     return ProductModel.fromJson(data);
   }
   Map<String, dynamic> toFirestore() {
-    return toJson()..remove('id');
+    return toJson()..remove('Productid');
   }
 }

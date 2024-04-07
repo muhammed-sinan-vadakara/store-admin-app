@@ -5,11 +5,15 @@ import 'package:store_admin_app/feactures/authentication/presentation/pages/auth
 import 'package:store_admin_app/feactures/authentication/presentation/pages/login_page.dart';
 import 'package:store_admin_app/feactures/authentication/presentation/pages/profile_page.dart';
 import 'package:store_admin_app/feactures/authentication/presentation/pages/sign_up_page.dart';
+import 'package:store_admin_app/feactures/home/domain/entity/coustemer_entity.dart';
+import 'package:store_admin_app/feactures/home/domain/entity/product_entity.dart';
+import 'package:store_admin_app/feactures/home/presentation/page/cotomer_edit_page.dart';
 import 'package:store_admin_app/feactures/home/presentation/page/coustomer_adding_page.dart';
 import 'package:store_admin_app/feactures/home/presentation/page/customer_details_page.dart';
 import 'package:store_admin_app/feactures/home/presentation/page/home_page.dart';
 import 'package:store_admin_app/feactures/home/presentation/page/product_adding_page.dart';
 import 'package:store_admin_app/feactures/home/presentation/page/product_details_page.dart';
+import 'package:store_admin_app/feactures/home/presentation/page/product_edit_page.dart';
 import 'package:store_admin_app/main.dart';
 
 part 'router.g.dart';
@@ -53,6 +57,16 @@ final router = GoRouter(
     GoRoute(
       path: ProductDetailsPage.routePath,
       builder: (context, state) => const ProductDetailsPage(),
+    ),
+    GoRoute(
+      path: CostomerEditPage.routePath,
+      builder: (context, state) =>
+          CostomerEditPage(entity: state.extra as CoustomerEntity),
+    ),
+    GoRoute(
+      path: ProductEditPage.routePath,
+      builder: (context, state) =>
+          ProductEditPage(entity: state.extra as ProductEntity),
     ),
   ],
 );

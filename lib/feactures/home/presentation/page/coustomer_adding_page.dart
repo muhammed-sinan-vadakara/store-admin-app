@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:store_admin_app/core/theme/app_theme.dart';
 import 'package:store_admin_app/core/widgets/common_widgets/elevated_button_widget.dart';
-import 'package:store_admin_app/core/widgets/common_widgets/text_fleid_widget.dart';
 import 'package:store_admin_app/feactures/home/presentation/provider/coustomer_provider.dart';
+import 'package:store_admin_app/feactures/home/presentation/widgets/form_text_feild_widget.dart';
 
 class CustomerAddingPage extends HookConsumerWidget {
   static const routePath = '/customeradding';
@@ -13,6 +13,7 @@ class CustomerAddingPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _formKey = GlobalKey<FormState>();
     final nameController = useTextEditingController();
     final descriptionController = useTextEditingController();
     final amountController = useTextEditingController();
@@ -23,11 +24,11 @@ class CustomerAddingPage extends HookConsumerWidget {
       // double amount = double.parse(percentageController.text);
 
       await ref.read(coustomerProvider.notifier).addcostomer(
-          id: '',
-          name: nameController.text,
-          description: descriptionController.text,
-          amount: amountController.text
-          // amount: amount,
+            id: '',
+            name: nameController.text,
+            description: descriptionController.text,
+            amount: amountController.text,
+            // amount: amount,
           );
 
       Future.sync(() => context.pop());
@@ -38,6 +39,7 @@ class CustomerAddingPage extends HookConsumerWidget {
       child: Scaffold(
         backgroundColor: AppTheme.of(context).colors.secondary,
         appBar: AppBar(
+          elevation: 6,
           leading: IconButton(
             onPressed: () => context.pop(),
             icon: Icon(
@@ -48,76 +50,161 @@ class CustomerAddingPage extends HookConsumerWidget {
           centerTitle: true,
           title: Text("PRODUCT ADDING"),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(),
-              Text("PRODUCT NAME"),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: spaces.space_300, vertical: spaces.space_100),
-                child: TextFieldWidget(
-                    hinttText: "Enter Product Name",
-                    controller: nameController),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: spaces.space_300, vertical: spaces.space_100),
-                child: Text("PRODUCT DESCRIPTION"),
-              ),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 24),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(),
+                  Text("PRODUCT NAME"),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: spaces.space_300,
+                        vertical: spaces.space_100),
+                    child: FormTextFieldWidget(
+                        hinttText: "Enter Product Name",
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "please add product name";
+                          }
+                        },
+                        controller: nameController),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: spaces.space_300,
+                        vertical: spaces.space_100),
+                    child: Text("PRODUCT DESCRIPTION"),
+                  ),
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: spaces.space_300),
-                child: TextFieldWidget(
-                    hinttText: "Enter Descrption of Product",
-                    controller: descriptionController),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: spaces.space_300, vertical: spaces.space_150),
-                child: Text("MRP(include all taxes)"),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: spaces.space_300),
-                child: TextFieldWidget(
-                    hinttText: "Enter Descrption of Product",
-                    controller: amountController),
-              ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: spaces.space_300),
+                    child: FormTextFieldWidget(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Describe the product";
+                          }
+                        },
+                        hinttText: "Enter Descrption of Product",
+                        controller: descriptionController),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: spaces.space_300,
+                        vertical: spaces.space_150),
+                    child: Text("MRP(include all taxes)"),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: spaces.space_300),
+                    child: FormTextFieldWidget(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Enter MRP of the product";
+                          } else if (double.parse(value) <= 0) {
+                            return "Negative and zero is MRP is not allowed";
+                          }
+                        },
+                        keyboardtype: TextInputType.number,
+                        hinttText: "Enter MRP of Product",
+                        controller: amountController),
+                  ),
 
-              // const S/izedBox32Widget(),
-              // Padding(
-              //   padding: EdgeInsets.symmetric(horizontal: spaces.space_300),
-              //   child: TextFieldWidget(
-              //       enabled: true,
-              //       textFieldTitle:
-              //           selectedOfferType.value == OfferType.percentage
-              //               ? 'Offer Percentage'
-              //               : 'Offfer Amount',
-              //       hintText: selectedOfferType.value == OfferType.percentage
-              //           ? constants.txtHintTextPercentage
-              //           : constants.txtHintTextAmount,
-              //       controller: percentageController),
-              // ),
-              // SizedBox(
-              //   height: spaces.space_200,
-              // ),
-              // const RowHeadingWidget(),
-              // ListViewProductsWidget(
-              //   offerType: selectedOfferType.value,
-              //   offerValue: double.parse(
-              //       percentageController.text.trim().isNotEmpty
-              //           ? percentageController.text
-              //           : '0'),
-              // ),
-              // const SizedBox8Widget(),
-              const SizedBox()
-            ],
+                  // const S/izedBox32Widget(),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: spaces.space_300),
+                  //   child: TextFieldWidget(
+                  //       enabled: true,
+                  //       textFieldTitle:
+                  //           selectedOfferType.value == OfferType.percentage
+                  //               ? 'Offer Percentage'
+                  //               : 'Offfer Amount',
+                  //       hintText: selectedOfferType.value == OfferType.percentage
+                  //           ? constants.txtHintTextPercentage
+                  //           : constants.txtHintTextAmount,
+                  //       controller: percentageController),
+                  // ),
+                  // SizedBox(
+                  //   height: spaces.space_200,
+                  // ),
+                  // const RowHeadingWidget(),
+                  // ListViewProductsWidget(
+                  //   offerType: selectedOfferType.value,
+                  //   offerValue: double.parse(
+                  //       percentageController.text.trim().isNotEmpty
+                  //           ? percentageController.text
+                  //           : '0'),
+                  // ),
+                  // const SizedBox8Widget(),
+                  const SizedBox()
+                ],
+              ),
+            ),
           ),
         ),
-        bottomNavigationBar: ElevatedButtonWidget(
-          text: "save",
-          onPressed: addOffer,
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(bottom: 50),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButtonWidget(
+                text: "save",
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    // Show processing snackbar
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Product added successfully')),
+                    );
+
+                    // Add product with proper error handling
+                    ref
+                        .read(coustomerProvider.notifier)
+                        .addcostomer(
+                            id: '', // Consider generating a unique ID if needed
+                            name: nameController.text,
+                            amount: amountController.text,
+                            description: descriptionController.text)
+                        .then((value) {
+                      // Handle successful addition (optional)
+                      print('Product added successfully!');
+                      // Or navigate to a confirmation screen, etc.
+                    }).catchError((error) {
+                      // Handle errors appropriately, display user-friendly message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Error adding product: $error'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    });
+
+                    // Clear form fields after successful addition or error handling
+                    Future.sync(() {
+                      nameController.clear();
+                      amountController.clear();
+                      descriptionController.clear();
+                    });
+                  }
+                }
+                // onPressed: () {
+                //   // if (_formKey.currentState!.validate()) {
+                //   //   ScaffoldMessenger.of(context).showSnackBar(
+                //   //     const SnackBar(content: Text('Processing Data')),
+                //   //   );
+                //   // } else {
+                //   ref.read(coustomerProvider.notifier).addcostomer(
+                //       id: '',
+                //       name: nameController.text,
+                //       description: descriptionController.text,
+                //       amount: amountController.text
+                //       // amount: amount,
+                //       );
+                // }
+                // },
+                ),
+          ),
         ),
       ),
     );

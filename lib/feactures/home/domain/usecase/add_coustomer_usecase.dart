@@ -15,7 +15,7 @@ final class AddCoustomerUseCase {
       return await repository.addCoustomer(CoustomerEntity(
         name: name,
         description: description,
-        id: id,
+        Coustomerid: id,
         amount: amount,
       ));
     } catch (e) {

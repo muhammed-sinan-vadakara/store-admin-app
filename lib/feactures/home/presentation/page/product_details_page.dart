@@ -18,6 +18,7 @@ class ProductDetailsPage extends ConsumerWidget {
     // final constants = AddOfferPageConstants();
     return Scaffold(
       appBar: AppBar(
+        elevation: 6,
         leading: IconButton(
           onPressed: () => context.pop(),
           icon: Icon(
@@ -26,22 +27,25 @@ class ProductDetailsPage extends ConsumerWidget {
           ),
         ),
         centerTitle: true,
-        title: Text("COUSTOMER DETAILS"),
+        title: Text("COSTOMER DETAILS"),
       ),
       backgroundColor: theme.colors.secondary,
-      body: switch (ref.watch(getAllproductProvider)) {
-        AsyncData(:final value) => SizedBox(
-            child: ProductBoxWidget(
-              entity: value,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: switch (ref.watch(getAllproductProvider)) {
+          AsyncData(:final value) => SizedBox(
+              child: ProductBoxWidget(
+                entity: value,
+              ),
             ),
-          ),
-        AsyncError() => const Center(
-            child: Text('Error while getting data'),
-          ),
-        _ => const Center(
-            child: DetailsShimmer(),
-          )
-      },
+          AsyncError() => const Center(
+              child: Text('Error while getting data'),
+            ),
+          _ => const Center(
+              child: DetailsShimmer(),
+            )
+        },
+      ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 50),
         child: ElevatedButton(
@@ -62,7 +66,7 @@ class ProductDetailsPage extends ConsumerWidget {
                 SizedBox(
                   width: theme.spaces.space_50,
                 ),
-                Text(" NEW COUSTOMERS",
+                Text(" NEW COSTOMERS",
                     style: theme.typography.h300.copyWith(
                       color: color.secondary,
                     ))

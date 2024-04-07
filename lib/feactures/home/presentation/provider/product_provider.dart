@@ -36,7 +36,7 @@ class ProductProvider extends _$ProductProvider {
   }
 
   Future<void> updateProduct({
-    required String id,
+    required String productId,
     required String name,
     required String phonenumber,
     required String email,
@@ -44,7 +44,7 @@ class ProductProvider extends _$ProductProvider {
   }) async {
     final repository = ref.watch(productRepositoryProvider);
     await UpdateProductUseCase(repository: repository)(
-      id: id,
+      id: productId,
       name: name,
       address: address,
       email: email,

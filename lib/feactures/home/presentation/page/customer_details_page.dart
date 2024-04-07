@@ -18,6 +18,7 @@ class CustomerDetailsPage extends ConsumerWidget {
     // final constants = AddOfferPageConstants();
     return Scaffold(
       appBar: AppBar(
+        elevation: 6,
         leading: IconButton(
           onPressed: () => context.pop(),
           icon: Icon(
@@ -42,29 +43,33 @@ class CustomerDetailsPage extends ConsumerWidget {
             child: DetailsShimmer(),
           )
       },
-      floatingActionButton: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-              backgroundColor: color.primary),
-          onPressed: () {
-            context.push(CustomerAddingPage.routePath);
-          },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.add,
-                color: color.secondary,
-              ),
-              SizedBox(
-                width: theme.spaces.space_50,
-              ),
-              Text("NEW PRODUCT",
-                  style: theme.typography.h300.copyWith(
-                    color: color.secondary,
-                  ))
-            ],
-          )),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50),
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                backgroundColor: color.primary),
+            onPressed: () {
+              context.push(CustomerAddingPage.routePath);
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.add,
+                  color: color.secondary,
+                ),
+                SizedBox(
+                  width: theme.spaces.space_50,
+                ),
+                Text("NEW PRODUCT",
+                    style: theme.typography.h300.copyWith(
+                      color: color.secondary,
+                    ))
+              ],
+            )),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

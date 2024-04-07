@@ -11,7 +11,7 @@ class CoustomerModel with _$CoustomerModel {
   const CoustomerModel._();
 
   factory CoustomerModel({
-    required String? id,
+    required String? coustomerid,
     required String? name,
     required String? description,
     required String? amount,
@@ -25,10 +25,10 @@ class CoustomerModel with _$CoustomerModel {
     SnapshotOptions? options,
   ) {
     final data = snapshot.data()!;
-    data['id'] = snapshot.id;
+    data['coustomerid'] = snapshot.id;
     return CoustomerModel.fromJson(data);
   }
   Map<String, dynamic> toFirestore() {
-    return toJson()..remove('id');
+    return toJson()..remove('coustomerid');
   }
 }

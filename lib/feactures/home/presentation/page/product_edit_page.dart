@@ -3,15 +3,18 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:store_admin_app/core/theme/app_theme.dart';
-import 'package:store_admin_app/core/utils/snack_bar_utils.dart';
 import 'package:store_admin_app/core/widgets/common_widgets/elevated_button_widget.dart';
-import 'package:store_admin_app/core/widgets/common_widgets/text_fleid_widget.dart';
+import 'package:store_admin_app/feactures/home/domain/entity/coustemer_entity.dart';
+import 'package:store_admin_app/feactures/home/domain/entity/product_entity.dart';
+import 'package:store_admin_app/feactures/home/presentation/provider/coustomer_provider.dart';
 import 'package:store_admin_app/feactures/home/presentation/provider/product_provider.dart';
 import 'package:store_admin_app/feactures/home/presentation/widgets/form_text_feild_widget.dart';
 
-class ProductAddingPage extends HookConsumerWidget {
-  static const routePath = '/productadding';
-  const ProductAddingPage({super.key});
+class ProductEditPage extends HookConsumerWidget {
+  static const routePath = '/Productedit';
+  final ProductEntity entity;
+  const ProductEditPage({super.key, required this.entity});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _formKey = GlobalKey<FormState>();
@@ -19,9 +22,31 @@ class ProductAddingPage extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final phoneNumberController = useTextEditingController();
     final addressController = useTextEditingController();
-
     final spaces = AppTheme.of(context).spaces;
-//     final constants = ref.watch(addOfferPageConstantsProvider);
+    final isLoading = useState<bool>(false);
+
+    void updatecostomer() async {
+      isLoading.value = true;
+      await ref.read(productProviderProvider.notifier).updateProduct(
+            name: nameController.text,
+            address: addressController.text,
+            productId: entity.productId,
+            phonenumber: phoneNumberController.text,
+            email: emailController.text,
+          );
+
+      Future.sync(() => context.pop());
+    }
+
+    useEffect(() {
+      Future.delayed(Duration.zero, () {
+        nameController.text = entity.name;
+        addressController.text = entity.address;
+        emailController.text = entity.email;
+        phoneNumberController.text = entity.phonenumber;
+      });
+      return null;
+    }, []);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -36,22 +61,24 @@ class ProductAddingPage extends HookConsumerWidget {
             ),
           ),
           centerTitle: true,
-          title: Text("COSTOMER ADDING"),
+          title: const Text("COSTOMER UPDATEING"),
         ),
         backgroundColor: AppTheme.of(context).colors.secondary,
         body: Padding(
-          padding: const EdgeInsets.only(top: 16),
+          padding: const EdgeInsets.only(top: 12),
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+              ),
               child: Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
                       child: Text("COSTOMER NAME"),
                     ),
                     Padding(
@@ -63,23 +90,14 @@ class ProductAddingPage extends HookConsumerWidget {
                               return "Enter Costomer Name";
                             }
                           },
-
-                          // enabled: true,
-                          // textFieldTitle: "hjhh",
-                          // constants.txtTitle,
                           hinttText: "Enter Costomer Name",
-                          // constants.txtHintTextTitle,
                           controller: nameController),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: spaces.space_300, vertical: 8),
-                      child: Text("COSTOMER EMAIL"
-                          // constants.txtOfferDetails,
-                          // style: typography.h400,
-                          ),
+                      child: const Text("COSTOMER EMAIL"),
                     ),
-                    // const SizedBox8Widget(),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: spaces.space_300),
@@ -98,20 +116,13 @@ class ProductAddingPage extends HookConsumerWidget {
                               return "Enter Valid Email";
                             }
                           },
-                          // maxLines: null,
-                          // enabled: true,
-                          // textFieldTitle: constants.txtDescription,
-                          // hintText: constants.txtHintTextdescription,
                           controller: emailController),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: spaces.space_300,
                           vertical: spaces.space_100),
-                      child: Text("COUSTOMER PHONE NUMBER"
-                          // constants.txtOfferDetails,
-                          // style: typography.h400,
-                          ),
+                      child: const Text("COUSTOMER PHONE NUMBER"),
                     ),
                     Padding(
                       padding:
@@ -126,60 +137,21 @@ class ProductAddingPage extends HookConsumerWidget {
                             }
                           },
                           keyboardtype: TextInputType.number,
-                          // maxLines: null,
-                          // enabled: true,
-                          // textFieldTitle: constants.txtDescription,
-                          // hintText: constants.txtHintTextdescription,
                           controller: phoneNumberController),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: spaces.space_300,
                           vertical: spaces.space_100),
-                      child: Text("COUSTOMER ADDRESS"
-                          // constants.txtOfferDetails,
-                          // style: typography.h400,
-                          ),
+                      child: const Text("COUSTOMER ADDRESS"),
                     ),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: spaces.space_300),
-                      child: TextFieldWidget(
+                      child: FormTextFieldWidget(
                           hinttText: "Enter Coustomer Address",
-                          // maxLines: null,
-                          // enabled: true,
-                          // textFieldTitle: constants.txtDescription,
-                          // hintText: constants.txtHintTextdescription,
                           controller: addressController),
                     ),
-                    // const SizedBox16Widget(),
-
-                    // const S/izedBox32Widget(),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: spaces.space_300),
-                    //   child: TextFieldWidget(
-                    //       enabled: true,
-                    //       textFieldTitle:
-                    //           selectedOfferType.value == OfferType.percentage
-                    //               ? 'Offer Percentage'
-                    //               : 'Offfer Amount',
-                    //       hintText: selectedOfferType.value == OfferType.percentage
-                    //           ? constants.txtHintTextPercentage
-                    //           : constants.txtHintTextAmount,
-                    //       controller: percentageController),
-                    // ),
-                    // SizedBox(
-                    //   height: spaces.space_200,
-                    // ),
-                    // const RowHeadingWidget(),
-                    // ListViewProductsWidget(
-                    //   offerType: selectedOfferType.value,
-                    //   offerValue: double.parse(
-                    //       percentageController.text.trim().isNotEmpty
-                    //           ? percentageController.text
-                    //           : '0'),
-                    // ),
-                    // const SizedBox8Widget(),
                     const SizedBox()
                   ],
                 ),
@@ -192,31 +164,27 @@ class ProductAddingPage extends HookConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ElevatedButtonWidget(
-                text: "save",
+                text: "UPDATE",
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // Show processing snackbar
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                          content: Text('Product added successfully!')),
+                          content: Text('Product updated successfully!')),
                     );
 
-                    // Add product with proper error handling
                     ref
                         .read(productProviderProvider.notifier)
-                        .addProduct(
-                          id: '', // Consider generating a unique ID if needed
+                        .updateProduct(
+                          productId: entity.productId,
                           name: nameController.text,
                           email: emailController.text,
                           phonenumber: phoneNumberController.text,
                           address: addressController.text,
                         )
                         .then((value) {
-                      // Handle successful addition (optional)
-                      print('Product added successfully!');
-                      // Or navigate to a confirmation screen, etc.
+                      print('Product updated successfully!');
                     }).catchError((error) {
-                      // Handle errors appropriately, display user-friendly message
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Error adding product: $error'),
@@ -225,36 +193,8 @@ class ProductAddingPage extends HookConsumerWidget {
                       );
                     });
 
-                    // Clear form fields after successful addition or error handling
-                    Future.sync(() {
-                      nameController.clear();
-                      emailController.clear();
-                      phoneNumberController.clear();
-                      addressController.clear();
-                    });
+                    Future.sync(() => context.pop());
                   }
-
-                  // onPressed: () {
-                  //   if (_formKey.currentState!.validate()) {
-                  //     ScaffoldMessenger.of(context).showSnackBar(
-                  //       const SnackBar(content: Text('Processing Data')),
-                  //     );
-                  //   } else {
-                  //     ref.read(productProviderProvider.notifier).addProduct(
-                  //           id: '',
-                  //           name: nameController.text,
-                  //           email: emailController.text,
-                  //           phonenumber: phoneNumberController.text,
-                  //           address: addressController.text,
-                  //           // amount: amount,
-                  //         );
-                  //     Future.sync(() {
-                  //       nameController.clear();
-                  //       emailController.clear();
-                  //       phoneNumberController.clear();
-                  //       addressController.clear();
-                  //     });
-                  //   }
                 }),
           ),
         ),
@@ -262,30 +202,3 @@ class ProductAddingPage extends HookConsumerWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// {
-//                         if (_formKey.currentState!.validate()) {
-//                           ScaffoldMessenger.of(context).showSnackBar(
-//                             const SnackBar(content: Text('Processing Data')),
-//                           );
-//                         } else {
-//                           ref.read(authenticationProvider.notifier).login(
-//                               context,
-//                               emailController.text,
-//                               passwordController.text);
-//                         }
-//                       }
